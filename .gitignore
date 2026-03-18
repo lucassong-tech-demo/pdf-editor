@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+pnpm-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -124,6 +125,10 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
 
 # yarn v3
 .pnp.*
@@ -137,3 +142,41 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# OpenCode / local AI tooling
+.opencode/
+.superpowers/
+.skills/
+AGENTS.md
+docs/
+Sources/
+
+# local uploaded/generated files
+uploads/
+downloads/
+artifacts/
+
+# future backend / python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# cache
+temp/
+tmp/
+
+# test outputs
+playwright-report/
+test-results/
+blob-report/
+
+# build output
+dist/
+build/
+coverage/
+.vite/
+
+# skills installation
+.agents/
+skills-lock.json
