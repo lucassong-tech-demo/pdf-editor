@@ -19,8 +19,8 @@ export function HeroSection({ tabs }: HeroSectionProps) {
     <section className="relative pt-8 text-center lg:pt-15">
       <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-3 px-4 lg:px-5">
         <div className="flex w-full flex-col gap-2">
-          <h1 className="text-[2rem] leading-[2.5rem] font-semibold tracking-tight text-[#10131a] lg:text-[3rem] lg:leading-[3.5rem]">
-            Edit PDFs easily and quickly
+          <h1 className="text-[2rem] leading-[2.5rem] font-normal tracking-tight text-[#10131a] lg:text-[3rem] lg:leading-[3.5rem]">
+            Edit your PDF and download instantly
           </h1>
           <p className="text-base leading-7 font-semibold text-[#6a6f79]">Discover all the tools</p>
         </div>

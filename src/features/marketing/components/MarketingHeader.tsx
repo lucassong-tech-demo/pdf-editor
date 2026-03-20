@@ -1,5 +1,5 @@
 import type { NavLink } from '../data/marketingData'
-import pdfUpdateLogo from '../../../assets/pdfupdate-logo.svg'
+import originalLogo from '../../../../Sources/pdf-logo-icon.svg'
 
 type MarketingHeaderProps = {
   links: NavLink[]
@@ -10,9 +10,9 @@ export function MarketingHeader({ links }: MarketingHeaderProps) {
     <header className="fixed inset-x-0 top-0 z-20 px-0 lg:pt-4">
       <div className="mx-auto max-w-[1240px] px-0 lg:px-5">
         <div className="flex h-12 items-center justify-between rounded-none bg-neutral-950 px-4 text-white lg:h-[52px] lg:rounded-xl lg:px-5">
-          <a className="flex items-center gap-2" href="#" aria-label="PDF Editor home">
-            <img src={pdfUpdateLogo} alt="PDFupdate logo" className="h-7 w-auto" />
-            <span className="text-sm font-semibold tracking-tight lg:text-base">PDFupdate</span>
+          <a className="flex items-center gap-2.5" href="#" aria-label="PDFbot home">
+            <img src={originalLogo} alt="PDFbot logo" className="h-10 w-auto" />
+            <span className="text-xl leading-none font-semibold tracking-tight text-white">PDFbot</span>
           </a>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Top navigation">
