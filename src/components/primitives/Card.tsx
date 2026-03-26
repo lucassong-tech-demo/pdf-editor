@@ -7,15 +7,15 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantClasses: Record<NonNullable<CardProps["variant"]>, string> = {
-  default: "ui-card--default",
-  interactive: "ui-card--interactive",
-  highlight: "ui-card--highlight",
+  default: "",
+  interactive: "transition-colors hover:border-[hsl(var(--grey-400))] hover:bg-[hsl(var(--grey-100))]",
+  highlight: "border-[hsl(var(--primary)/0.3)] bg-[hsl(var(--primary-light))]",
 }
 
 const paddingClasses: Record<NonNullable<CardProps["padding"]>, string> = {
-  sm: "ui-card--pad-sm",
-  md: "ui-card--pad-md",
-  lg: "ui-card--pad-lg",
+  sm: "p-4",
+  md: "p-5",
+  lg: "p-6",
 }
 
 export function Card({
@@ -27,7 +27,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "ui-card",
+        "rounded-[var(--radius-lg)] border border-[hsl(var(--grey-300))] bg-[hsl(var(--white))]",
         variantClasses[variant],
         paddingClasses[padding],
         className,

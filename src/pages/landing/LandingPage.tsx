@@ -33,9 +33,9 @@ import editPdfIcon from "../../assets/edit-pdf-icon.svg"
 import docDownloadIcon from "../../assets/doc-download-icon.svg"
 
 const stepVisualById: Record<string, ReactElement> = {
-  open: <img src={uploadIcon} alt="" className="mkt-step-icon" />,
-  edit: <img src={editPdfIcon} alt="" className="mkt-step-icon" />,
-  download: <img src={docDownloadIcon} alt="" className="mkt-step-icon" />,
+  open: <img src={uploadIcon} alt="" className="block size-[78px] object-contain" />,
+  edit: <img src={editPdfIcon} alt="" className="block size-[78px] object-contain" />,
+  download: <img src={docDownloadIcon} alt="" className="block size-[78px] object-contain" />,
 }
 
 const featureIconById: Record<string, ReactElement> = {
@@ -65,27 +65,27 @@ export function LandingPage() {
   }
 
   return (
-    <div className="app-page-surface mkt-page">
+    <div className="app-page-surface">
       <Header />
-      <div className="mkt-header-spacer" aria-hidden="true" />
+      <div className="h-12 lg:h-[68px]" aria-hidden="true" />
 
       <main>
-        <Section spacing="lg" className="mkt-hero">
-          <Container size="narrow" className="mkt-hero__center">
+        <Section spacing="lg" className="relative overflow-hidden pb-10 lg:pb-20">
+          <Container size="narrow" className="text-center">
             <div>
-              <h1 className="mkt-hero__headline">
+              <h1 className="m-0 text-[32px] leading-[44px] font-normal tracking-[-1px] lg:text-[40px] lg:leading-[56px]">
                 {landingContent.heroTitle}
               </h1>
-              <p className="mkt-hero__subtitle">
+              <p className="mt-2 text-[var(--text-subtitle-3)] leading-7 font-semibold text-[hsl(var(--grey-500))]">
                 {landingContent.heroSubtitle}
               </p>
             </div>
 
-            <div className="mkt-hero__tabs">
+            <div className="mt-6 flex justify-center">
               <Tabs items={tabs} value={activeTab} onChange={setActiveTab} />
             </div>
 
-            <div className="mkt-hero__panel">
+            <div className="mt-6">
               <UploadPanel
                 title={landingContent.uploadPanelTitle}
                 description={landingContent.uploadPanelDescription}
@@ -93,23 +93,26 @@ export function LandingPage() {
                 secondaryLabel={landingContent.secondaryCta}
                 onUploadPdf={openLocalFilePicker}
                 onCreateDocument={createNewDocument}
-                visual={<img src={uploadIcon} alt="" className="upload-panel__image" />}
+                visual={<img src={uploadIcon} alt="" className="block size-[92px] object-contain" />}
               />
             </div>
 
           </Container>
 
-          <div aria-hidden="true" className="mkt-hero__fade" />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[hsl(var(--grey-100))] to-transparent"
+          />
         </Section>
 
         <Section tone="white" spacing="lg" id="how-it-works">
           <Container>
-            <div className="mkt-steps">
-              <h2 className="mkt-steps__title">
+            <div>
+              <h2 className="m-0 text-center text-[clamp(28px,4vw,var(--text-heading-2))] leading-[1.15] font-normal tracking-[-0.02em] text-[hsl(var(--primary))]">
                 {landingContent.stepsTitle}
               </h2>
 
-              <div className="mkt-steps__grid">
+              <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-3">
                 {landingSteps.map((step) => (
                   <StepCard
                     key={step.id}
@@ -126,12 +129,12 @@ export function LandingPage() {
 
         <Section spacing="lg" id="features">
           <Container>
-            <div className="mkt-features">
-              <h2 className="mkt-features__title">
+            <div>
+              <h2 className="m-0 text-[clamp(28px,4vw,var(--text-heading-2))] leading-[1.15] font-normal tracking-[-0.02em] text-[hsl(var(--black))]">
                 {landingContent.featuresTitle}
               </h2>
 
-              <div className="mkt-features__grid">
+              <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {landingFeatureCards.map((feature) => (
                   <FeatureCard
                     key={feature.id}
@@ -148,16 +151,22 @@ export function LandingPage() {
 
         <Section tone="white" spacing="md" id="faq">
           <Container size="narrow">
-            <div className="mkt-faq">
-              <h2 className="mkt-faq__title">
+            <div>
+              <h2 className="m-0 text-center text-[clamp(28px,4vw,var(--text-heading-2))] leading-[1.15] font-normal tracking-[-0.02em]">
                 {landingContent.faqTitle}
               </h2>
 
-              <div className="mkt-faq__list">
+              <div className="mt-6 grid gap-3">
                 {landingFaqItems.map((faq) => (
-                  <Card key={faq.id} padding="md" className="mkt-faq__item">
-                    <h3 className="mkt-faq__question">{faq.question}</h3>
-                    <p className="mkt-faq__answer">{faq.answer}</p>
+                  <Card
+                    key={faq.id}
+                    padding="md"
+                    className="rounded-[var(--radius-xl)] transition-colors hover:border-[hsl(var(--grey-400))] hover:bg-[hsl(var(--grey-100))]"
+                  >
+                    <h3 className="m-0 text-[var(--text-subtitle-3)] font-semibold">{faq.question}</h3>
+                    <p className="mt-2 text-[var(--text-body-1)] leading-[1.7] text-[hsl(var(--grey-600))]">
+                      {faq.answer}
+                    </p>
                   </Card>
                 ))}
               </div>

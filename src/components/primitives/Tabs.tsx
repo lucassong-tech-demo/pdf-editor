@@ -23,7 +23,7 @@ function TabButton({
     <button
       type="button"
       className={cn(
-        "ui-tab",
+        "cursor-pointer rounded-[var(--radius-sm)] border-0 bg-[hsl(var(--white))] px-4 py-2 text-[var(--text-body-1)] font-semibold text-[hsl(var(--black))] transition-colors hover:bg-[hsl(var(--primary-light))] hover:text-[hsl(var(--primary))] aria-selected:bg-[hsl(var(--primary-light))] aria-selected:text-[hsl(var(--primary))] focus-visible:outline-2 focus-visible:outline-[hsl(var(--primary)/0.25)] focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:text-[hsl(var(--grey-500))]",
         className,
       )}
       {...props}
@@ -59,7 +59,7 @@ export function Tabs({ items, value, onChange, className }: TabsProps) {
       role="tablist"
       aria-orientation="horizontal"
       className={cn(
-        "ui-tabs",
+        "inline-flex h-12 items-center gap-1 rounded-[var(--radius-md)] border border-[hsl(var(--grey-300))] bg-[hsl(var(--white))] p-1",
         className,
       )}
       onKeyDown={handleKeyDown}

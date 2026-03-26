@@ -43,7 +43,7 @@ export function EditorEntryPage({ mode }: EditorEntryPageProps) {
         onGoHome={() => navigate("/")}
       >
         <Card variant="highlight" padding="md">
-          <p className="editor-entry__note">
+          <p className="m-0 text-[var(--text-body-1)] leading-[1.6] text-[hsl(var(--grey-600))]">
             You entered the editor with an empty document. This is the V1 entry shell only.
           </p>
         </Card>
@@ -57,8 +57,8 @@ export function EditorEntryPage({ mode }: EditorEntryPageProps) {
       subtitle="Choose a local PDF file to start the V1 editor flow."
       onGoHome={() => navigate("/")}
     >
-      <div className="editor-entry">
-        <div className="editor-entry__actions">
+      <div className="grid gap-4">
+        <div className="flex flex-wrap gap-3">
           <Button onClick={openFilePicker}>Choose PDF</Button>
           <Button variant="secondary" onClick={() => navigate("/editor/new")}>
             Create new document
@@ -66,7 +66,7 @@ export function EditorEntryPage({ mode }: EditorEntryPageProps) {
         </div>
 
         <Card padding="md">
-          <p className="editor-entry__note">
+          <p className="m-0 text-[var(--text-body-1)] leading-[1.6] text-[hsl(var(--grey-600))]">
             {selectedFileName
               ? `Selected file: ${selectedFileName}`
               : "No file selected yet. The full editor UI will be added next."}

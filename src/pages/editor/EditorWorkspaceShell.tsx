@@ -16,11 +16,11 @@ export function EditorWorkspaceShell({
   onGoHome,
 }: EditorWorkspaceShellProps) {
   return (
-    <div className="app-page-surface editor-page">
-      <header className="editor-header">
-        <Container className="editor-header__row">
-          <p className="editor-header__title">
-            <img src={logo} alt="PDFbot" className="editor-header__logo" />
+    <div className="app-page-surface">
+      <header className="border-b border-[hsl(var(--grey-300))] bg-[hsl(var(--white))] py-4">
+        <Container className="flex items-center justify-between gap-4">
+          <p className="inline-flex items-center text-[var(--text-subtitle-3)] font-semibold">
+            <img src={logo} alt="PDFbot" className="block h-5 w-auto" />
           </p>
           <Button variant="secondary" size="sm" onClick={onGoHome}>
             Back to landing
@@ -28,12 +28,14 @@ export function EditorWorkspaceShell({
         </Container>
       </header>
 
-      <main className="editor-main">
+      <main className="py-10 lg:py-14">
         <Container size="narrow">
-          <div className="editor-panel">
-            <h1 className="editor-panel__title">{title}</h1>
-            <p className="editor-panel__subtitle">{subtitle}</p>
-            <div className="editor-panel__content">{children}</div>
+          <div className="rounded-[var(--radius-xl)] border border-[hsl(var(--grey-300))] bg-[hsl(var(--white))] p-6 lg:p-8">
+            <h1 className="m-0 text-[clamp(28px,4vw,var(--text-heading-2))] leading-[1.15] tracking-[-0.02em] font-bold">
+              {title}
+            </h1>
+            <p className="mt-2 text-[var(--text-body-1)] text-[hsl(var(--grey-600))]">{subtitle}</p>
+            <div className="mt-6">{children}</div>
           </div>
         </Container>
       </main>
