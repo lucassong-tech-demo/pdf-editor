@@ -16,7 +16,7 @@ export function EditorWorkspaceShell({
   onGoHome,
 }: EditorWorkspaceShellProps) {
   return (
-    <div className="editor-page">
+    <div className="app-page-surface editor-page">
       <header className="editor-header">
         <Container className="editor-header__row">
           <p className="editor-header__title">

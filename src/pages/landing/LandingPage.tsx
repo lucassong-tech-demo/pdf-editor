@@ -65,7 +65,7 @@ export function LandingPage() {
   }
 
   return (
-    <div className="mkt-page">
+    <div className="app-page-surface mkt-page">
       <Header />
       <div className="mkt-header-spacer" aria-hidden="true" />
 

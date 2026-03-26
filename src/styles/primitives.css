@@ -21,7 +21,7 @@
 }
 
 .ui-section--white {
-  background: hsl(var(--white));
+  background: hsl(var(--grey-100));
 }
 
 .ui-section--soft {

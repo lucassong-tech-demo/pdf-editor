@@ -1,9 +1,3 @@
-.editor-page {
-  min-height: 100vh;
-  background: hsl(var(--grey-100));
-  color: hsl(var(--black));
-}
-
 .editor-header {
   border-bottom: 1px solid hsl(var(--grey-300));
   background: hsl(var(--white));
