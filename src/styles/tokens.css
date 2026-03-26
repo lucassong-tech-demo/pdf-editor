@@ -1,0 +1,37 @@
+:root {
+  --primary: 206 90% 60%;
+  --primary-light: 206 90% 96%;
+  --primary-medium: 206 83% 55%;
+  --primary-dark: 206 74% 48%;
+  --primary-darkest: 206 70% 40%;
+
+  --black: 0 0% 8%;
+  --white: 0 0% 100%;
+
+  --grey-100: 0 0% 97%;
+  --grey-200: 240 3% 94%;
+  --grey-300: 0 0% 88%;
+  --grey-400: 0 0% 76%;
+  --grey-500: 0 0% 44%;
+  --grey-600: 240 3% 26%;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+
+  --text-heading-1: 56px;
+  --text-heading-2: 44px;
+  --text-subtitle-1: 24px;
+  --text-subtitle-2: 20px;
+  --text-subtitle-3: 16px;
+  --text-body-1: 14px;
+  --text-body-2: 12px;
+}
+
+body {
+  font-family: "Open Sans", system-ui, sans-serif;
+  background-color: hsl(var(--grey-100));
+  color: hsl(var(--black));
+}

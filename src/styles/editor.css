@@ -1,0 +1,89 @@
+.editor-page {
+  min-height: 100vh;
+  background: hsl(var(--grey-100));
+  color: hsl(var(--black));
+}
+
+.editor-header {
+  border-bottom: 1px solid hsl(var(--grey-300));
+  background: hsl(var(--white));
+  padding: 16px 0;
+}
+
+.editor-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.editor-header__title {
+  margin: 0;
+  font-size: var(--text-subtitle-3);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.editor-header__logo {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
+.editor-main {
+  padding: 40px 0;
+}
+
+.editor-panel {
+  border: 1px solid hsl(var(--grey-300));
+  border-radius: var(--radius-xl);
+  background: hsl(var(--white));
+  padding: 24px;
+}
+
+.editor-panel__title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, var(--text-heading-2));
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.editor-panel__subtitle {
+  margin: 8px 0 0;
+  font-size: var(--text-body-1);
+  color: hsl(var(--grey-600));
+}
+
+.editor-panel__content {
+  margin-top: 24px;
+}
+
+.editor-entry {
+  display: grid;
+  gap: 16px;
+}
+
+.editor-entry__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.editor-entry__note {
+  margin: 0;
+  font-size: var(--text-body-1);
+  color: hsl(var(--grey-600));
+  line-height: 1.6;
+}
+
+@media (min-width: 1024px) {
+  .editor-main {
+    padding: 56px 0;
+  }
+
+  .editor-panel {
+    padding: 32px;
+  }
+}
