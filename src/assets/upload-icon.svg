@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="uploadIconTitle uploadIconDesc">
+  <title id="uploadIconTitle">Upload PDF icon</title>
+  <desc id="uploadIconDesc">A PDF file icon with thin gray outline and PDF badge.</desc>
+
+  <path fill="none" stroke="#9CA3AF" stroke-width="1.5" d="M34 10h40l24 24v56c0 11-9 20-20 20H34c-11 0-20-9-20-20V30c0-11 9-20 20-20z"/>
+  <path fill="none" stroke="#9CA3AF" stroke-width="1.5" d="M74 10v18c0 5 4 9 9 9h15"/>
+
+  <g stroke="#8B8B8B" stroke-width="2" stroke-linecap="round">
+    <path d="M36 46h46"/>
+    <path d="M36 56h50"/>
+    <path d="M36 66h50"/>
+    <path d="M36 76h50"/>
+  </g>
+
+  <rect x="8" y="63" width="72" height="28" rx="6" fill="#FF201B"/>
+  <text x="44" y="82" text-anchor="middle" font-family="Open Sans, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">PDF</text>
+</svg>
