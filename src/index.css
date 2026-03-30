@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+
+:root {
+  font-family:
+    'Open Sans',
+    'Segoe UI',
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    sans-serif;
+  color: #10131a;
+  background-color: #f7f7f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  body {
+    @apply m-0 bg-[#f7f7f7] text-[#10131a] antialiased;
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+}
