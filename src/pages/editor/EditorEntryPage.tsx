@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState, type ChangeEvent } from "react"
-import { useNavigate } from "react-router-dom"
-import { Button, Card } from "../../components/primitives"
+import { useRef, useState, type ChangeEvent } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { EditorWorkspaceShell } from "./EditorWorkspaceShell"
 
 export interface EditorEntryPageProps {
@@ -9,9 +8,11 @@ export interface EditorEntryPageProps {
 
 export function EditorEntryPage({ mode }: EditorEntryPageProps) {
   const navigate = useNavigate()
+  const location = useLocation()
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const autoOpenedRef = useRef(false)
-  const [selectedFileName, setSelectedFileName] = useState<string | null>(null)
+  const initialPdfFromRoute = (location.state as { initialPdfFile?: File } | null)?.initialPdfFile ?? null
+  const [selectedPdf, setSelectedPdf] = useState<File | null>(initialPdfFromRoute)
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(initialPdfFromRoute?.name ?? null)
 
   const openFilePicker = () => {
     inputRef.current?.click()
@@ -23,57 +24,23 @@ export function EditorEntryPage({ mode }: EditorEntryPageProps) {
       return
     }
 
+    setSelectedPdf(file)
     setSelectedFileName(file.name)
+    event.currentTarget.value = ""
   }
 
-  useEffect(() => {
-    if (mode !== "upload" || autoOpenedRef.current) {
-      return
-    }
-
-    autoOpenedRef.current = true
-    inputRef.current?.click()
-  }, [mode])
-
-  if (mode === "new") {
-    return (
+  const shell =
+    mode === "new" || mode === "upload" ? (
       <EditorWorkspaceShell
-        title="New document workspace"
-        subtitle="Empty workspace shell is ready. Editing tools will be added in next milestones."
-        onGoHome={() => navigate("/")}
-      >
-        <Card variant="highlight" padding="md">
-          <p className="m-0 text-[var(--text-body-1)] leading-[1.6] text-[hsl(var(--grey-600))]">
-            You entered the editor with an empty document. This is the V1 entry shell only.
-          </p>
-        </Card>
-      </EditorWorkspaceShell>
-    )
-  }
+        selectedPdf={selectedPdf}
+        onUploadClick={openFilePicker}
+        onCreateNewClick={() => navigate("/editor/new")}
+      />
+    ) : null
 
   return (
-    <EditorWorkspaceShell
-      title="Upload PDF to enter workspace"
-      subtitle="Choose a local PDF file to start the V1 editor flow."
-      onGoHome={() => navigate("/")}
-    >
-      <div className="grid gap-4">
-        <div className="flex flex-wrap gap-3">
-          <Button onClick={openFilePicker}>Choose PDF</Button>
-          <Button variant="secondary" onClick={() => navigate("/editor/new")}>
-            Create new document
-          </Button>
-        </div>
-
-        <Card padding="md">
-          <p className="m-0 text-[var(--text-body-1)] leading-[1.6] text-[hsl(var(--grey-600))]">
-            {selectedFileName
-              ? `Selected file: ${selectedFileName}`
-              : "No file selected yet. The full editor UI will be added next."}
-          </p>
-        </Card>
-      </div>
-
+    <>
+      {shell}
       <input
         ref={inputRef}
         type="file"
@@ -81,6 +48,9 @@ export function EditorEntryPage({ mode }: EditorEntryPageProps) {
         className="sr-only"
         onChange={onFilePicked}
       />
-    </EditorWorkspaceShell>
+      <span className="sr-only" aria-live="polite">
+        {selectedFileName ? `Selected file: ${selectedFileName}` : "No file selected"}
+      </span>
+    </>
   )
 }

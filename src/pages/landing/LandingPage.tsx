@@ -1,25 +1,18 @@
-import { useMemo, useState, type ReactElement } from "react"
+import { useRef, type ChangeEvent, type ReactElement } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   FeatureCard,
+  EntryUploadBlock,
   Footer,
   Header,
   StepCard,
-  UploadPanel,
 } from "../../components/marketing"
-import {
-  Card,
-  Container,
-  Section,
-  Tabs,
-  type TabItem,
-} from "../../components/primitives"
+import { Card, Container, Section } from "../../components/primitives"
 import {
   landingContent,
   landingFaqItems,
   landingFeatureCards,
   landingSteps,
-  landingTabs,
 } from "../../features/landing/config"
 import {
   FeatureAnnotateIcon,
@@ -48,16 +41,23 @@ const featureIconById: Record<string, ReactElement> = {
 }
 
 export function LandingPage() {
-  const [activeTab, setActiveTab] = useState(landingTabs[0]?.id ?? "edit")
   const navigate = useNavigate()
-
-  const tabs: TabItem[] = useMemo(
-    () => landingTabs.map((item) => ({ id: item.id, label: item.label })),
-    [],
-  )
+  const pickerRef = useRef<HTMLInputElement | null>(null)
 
   const openLocalFilePicker = () => {
-    navigate("/editor")
+    pickerRef.current?.click()
+  }
+
+  const handleLandingFilePicked = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) {
+      return
+    }
+
+    navigate("/editor", {
+      state: { initialPdfFile: file },
+    })
+    event.currentTarget.value = ""
   }
 
   const createNewDocument = () => {
@@ -66,6 +66,14 @@ export function LandingPage() {
 
   return (
     <div className="app-page-surface">
+      <input
+        ref={pickerRef}
+        type="file"
+        accept="application/pdf,.pdf"
+        className="sr-only"
+        aria-label="Select PDF file"
+        onChange={handleLandingFilePicked}
+      />
       <Header />
       <div className="h-12 lg:h-[68px]" aria-hidden="true" />
 
@@ -81,19 +89,12 @@ export function LandingPage() {
               </p>
             </div>
 
-            <div className="mt-6 flex justify-center">
-              <Tabs items={tabs} value={activeTab} onChange={setActiveTab} />
-            </div>
-
             <div className="mt-6">
-              <UploadPanel
-                title={landingContent.uploadPanelTitle}
-                description={landingContent.uploadPanelDescription}
+              <EntryUploadBlock
                 primaryLabel={landingContent.primaryCta}
                 secondaryLabel={landingContent.secondaryCta}
                 onUploadPdf={openLocalFilePicker}
                 onCreateDocument={createNewDocument}
-                visual={<img src={uploadIcon} alt="" className="block size-[92px] object-contain" />}
               />
             </div>
 

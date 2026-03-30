@@ -4,7 +4,7 @@ import { cn } from "../../lib/cn"
 
 export interface UploadPanelProps {
   title: string
-  description: string
+  description: ReactNode
   primaryLabel?: string
   secondaryLabel?: string
   onUploadPdf?: () => void
@@ -39,8 +39,8 @@ export function UploadPanel({
           )}
         </div>
 
-        <h3 className="m-0 text-[var(--text-subtitle-1)] leading-[1.25] font-normal">{title}</h3>
-        <p className="mt-2 max-w-[540px] text-[var(--text-body-1)] leading-[1.6] font-normal text-[hsl(var(--grey-500))]">
+        {title ? <p className="text-body1 lg:text-subtitle1 font-semibold max-sm:whitespace-pre-line">{title}</p> : null}
+        <p className="text-body3 lg:text-body1 text-grey-500 mb-4 md:mb-6">
           {description}
         </p>
 

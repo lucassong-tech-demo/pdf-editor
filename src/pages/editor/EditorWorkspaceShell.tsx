@@ -1,44 +1,114 @@
-import type { ReactNode } from "react"
-import { Button, Container } from "../../components/primitives"
-import logo from "../../assets/pdfbot-logo.svg"
+import { useState } from "react"
+import {
+  EditorBottomZoomBar,
+  EditorBottomRightUtilities,
+  EditorCanvasStage,
+  EditorFloatingToolbar,
+  EditorInspectorPanel,
+  EditorThumbnailPanel,
+  EditorTopHeader,
+} from "./components"
+import {
+  editorThumbnails,
+  editorToolbarTools,
+  inspectorSections,
+  type EditorToolId,
+} from "./config/editor-shell-mock"
 
 interface EditorWorkspaceShellProps {
-  title: string
-  subtitle: string
-  children: ReactNode
-  onGoHome?: () => void
+  selectedPdf?: File | null
+  onUploadClick?: () => void
+  onCreateNewClick?: () => void
 }
 
-export function EditorWorkspaceShell({
-  title,
-  subtitle,
-  children,
-  onGoHome,
-}: EditorWorkspaceShellProps) {
-  return (
-    <div className="app-page-surface">
-      <header className="border-b border-[hsl(var(--grey-300))] bg-[hsl(var(--white))] py-4">
-        <Container className="flex items-center justify-between gap-4">
-          <p className="inline-flex items-center text-[var(--text-subtitle-3)] font-semibold">
-            <img src={logo} alt="PDFbot" className="block h-5 w-auto" />
-          </p>
-          <Button variant="secondary" size="sm" onClick={onGoHome}>
-            Back to landing
-          </Button>
-        </Container>
-      </header>
+const ZOOM_MIN = 50
+const ZOOM_MAX = 200
+const ZOOM_STEP = 10
 
-      <main className="py-10 lg:py-14">
-        <Container size="narrow">
-          <div className="rounded-[var(--radius-xl)] border border-[hsl(var(--grey-300))] bg-[hsl(var(--white))] p-6 lg:p-8">
-            <h1 className="m-0 text-[clamp(28px,4vw,var(--text-heading-2))] leading-[1.15] tracking-[-0.02em] font-bold">
-              {title}
-            </h1>
-            <p className="mt-2 text-[var(--text-body-1)] text-[hsl(var(--grey-600))]">{subtitle}</p>
-            <div className="mt-6">{children}</div>
-          </div>
-        </Container>
+export function EditorWorkspaceShell({
+  selectedPdf = null,
+  onUploadClick,
+  onCreateNewClick,
+}: EditorWorkspaceShellProps) {
+  const [activeTool, setActiveTool] = useState<EditorToolId>(editorToolbarTools[0]?.id ?? "secure")
+  const [selectedPage, setSelectedPage] = useState(editorThumbnails[0]?.id ?? "page-1")
+  const [activeSection, setActiveSection] = useState(inspectorSections[0]?.id ?? "pages")
+  const [mobileInspectorOpen, setMobileInspectorOpen] = useState(false)
+  const [zoom, setZoom] = useState(100)
+  const hasPdf = Boolean(selectedPdf)
+  const selectedPageIndex = editorThumbnails.findIndex((page) => page.id === selectedPage)
+  const currentPage = hasPdf ? Math.max(1, selectedPageIndex + 1) : 1
+  const totalPages = hasPdf ? editorThumbnails.length : 1
+
+  const zoomOut = () => {
+    if (!hasPdf) {
+      return
+    }
+    setZoom((value) => Math.max(ZOOM_MIN, value - ZOOM_STEP))
+  }
+
+  const zoomIn = () => {
+    if (!hasPdf) {
+      return
+    }
+    setZoom((value) => Math.min(ZOOM_MAX, value + ZOOM_STEP))
+  }
+
+  return (
+    <div className="app-page-surface flex min-h-dvh w-max min-w-full flex-col">
+      <div className="h-[52px] md:h-[72px]" aria-hidden="true" />
+      <EditorTopHeader />
+      <EditorFloatingToolbar activeTool={activeTool} onToolChange={setActiveTool} />
+
+      <main className={`pb-6 ${hasPdf ? "pt-24 md:px-[180px] xl:px-[220px]" : "pt-20 md:px-6"}`}>
+        {hasPdf ? (
+          <EditorThumbnailPanel pages={editorThumbnails} selectedPage={selectedPage} onSelectPage={setSelectedPage} />
+        ) : null}
+
+
+        <section className="mx-auto px-4 xl:px-0">
+          {hasPdf ? (
+            <div className="mb-4 flex justify-end xl:hidden">
+              <button
+                type="button"
+                className="border-grey-300 bg-white text-grey-500 hover:bg-grey-100 rounded-lg border px-3 py-1 text-[var(--text-body-2)] font-semibold"
+                onClick={() => setMobileInspectorOpen((value) => !value)}
+                aria-expanded={mobileInspectorOpen}
+                aria-label="Toggle inspector"
+              >
+                {mobileInspectorOpen ? "Hide tools" : "Show tools"}
+              </button>
+            </div>
+          ) : null}
+
+          <EditorCanvasStage
+            selectedPdf={selectedPdf}
+            zoom={zoom}
+            onUploadClick={onUploadClick}
+            onCreateNewClick={onCreateNewClick}
+          />
+        </section>
+
+        {hasPdf ? (
+          <EditorInspectorPanel
+            sections={inspectorSections}
+            activeSection={activeSection}
+            mobileOpen={mobileInspectorOpen}
+            onSectionChange={setActiveSection}
+          />
+        ) : null}
       </main>
+
+      <EditorBottomZoomBar
+        currentPage={currentPage}
+        totalPages={totalPages}
+        zoom={zoom}
+        zoomDisabled={!hasPdf}
+        onZoomOut={zoomOut}
+        onZoomIn={zoomIn}
+      />
+
+      <EditorBottomRightUtilities />
     </div>
   )
 }

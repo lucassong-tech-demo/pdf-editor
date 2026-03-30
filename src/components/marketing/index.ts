@@ -1,3 +1,4 @@
+export * from "./EntryUploadBlock"
 export * from "./FeatureCard"
 export * from "./Footer"
 export * from "./Header"

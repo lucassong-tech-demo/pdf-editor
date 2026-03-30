@@ -24,6 +24,10 @@ body {
   color: hsl(var(--black));
 }
 
+.font-hint-fuzzy {
+  font-family: "Fuzzy Bubbles", "Open Sans", system-ui, sans-serif;
+}
+
 a {
   color: inherit;
   text-decoration: none;
