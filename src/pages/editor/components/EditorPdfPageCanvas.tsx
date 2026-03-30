@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
+import { EditorCanvasOverlays } from "./EditorCanvasOverlays"
+import { usePdfRender } from "../hooks/usePdfRender"
 
 interface EditorPdfPageCanvasProps {
   file: File
@@ -7,82 +9,54 @@ interface EditorPdfPageCanvasProps {
 
 export function EditorPdfPageCanvas({ file, zoom }: EditorPdfPageCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [isRendering, setIsRendering] = useState(true)
-
-  useEffect(() => {
-    let cancelled = false
-    const objectUrl = URL.createObjectURL(file)
-
-    const renderFirstPage = async () => {
-      try {
-        setIsRendering(true)
-        setError(null)
-
-        if (typeof window === "undefined" || typeof DOMMatrix === "undefined") {
-          setIsRendering(false)
-          return
-        }
-
-        const [{ GlobalWorkerOptions, getDocument }, workerModule] = await Promise.all([
-          import("pdfjs-dist/legacy/build/pdf.mjs"),
-          import("pdfjs-dist/legacy/build/pdf.worker.mjs?url"),
-        ])
-
-        GlobalWorkerOptions.workerSrc = workerModule.default
-
-        const loadingTask = getDocument(objectUrl)
-        const pdf = await loadingTask.promise
-        const firstPage = await pdf.getPage(1)
-        const scale = Math.max(0.7, Math.min(2, zoom / 100))
-        const viewport = firstPage.getViewport({ scale })
-        const canvas = canvasRef.current
-
-        if (!canvas || cancelled) {
-          return
-        }
-
-        const context = canvas.getContext("2d")
-        if (!context) {
-          setIsRendering(false)
-          return
-        }
-
-        canvas.width = Math.floor(viewport.width)
-        canvas.height = Math.floor(viewport.height)
-
-        await firstPage.render({
-          canvas,
-          canvasContext: context,
-          viewport,
-        }).promise
-
-        if (!cancelled) {
-          setIsRendering(false)
-        }
-      } catch {
-        if (!cancelled) {
-          setError("Unable to render PDF preview.")
-          setIsRendering(false)
-        }
-      }
-    }
-
-    void renderFirstPage()
-
-    return () => {
-      cancelled = true
-      URL.revokeObjectURL(objectUrl)
-    }
-  }, [file, zoom])
+  const { error, isRendering, canvasSize } = usePdfRender({
+    file,
+    zoom,
+    canvasRef,
+  })
 
   return (
-    <div className="mx-auto grid max-w-[860px] place-items-center rounded-[20px] border border-[hsl(var(--grey-300))] bg-white px-4 py-6 shadow-[0_16px_40px_hsl(var(--black)/0.06)]">
-      <canvas data-testid="editor-pdf-canvas" ref={canvasRef} className="h-auto max-w-full rounded-[10px] border border-[hsl(var(--grey-300))]" />
-      {isRendering ? (
-        <p className="mt-3 text-[var(--text-body-2)] text-[hsl(var(--grey-500))]">Rendering first page...</p>
-      ) : null}
-      {error ? <p className="mt-2 text-[var(--text-body-2)] text-red-600">{error}</p> : null}
+    <div className="editor-content mx-auto flex justify-center max-md:pb-[52px]" style={{ width: "calc(100% - 20px)" }}>
+      <div className="relative size-fit">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 translate-x-3 translate-y-3 bg-[hsl(var(--grey-200))]"
+        />
+        <div className="relative">
+          <div style={{ position: "absolute", left: 0, top: 0, pointerEvents: "auto", zIndex: 0, display: "none" }} />
+          <div
+            className="relative mx-auto size-fit overflow-hidden bg-white shadow-[0_0_0_1px_hsl(var(--black)/0.03),0_0_6px_hsl(var(--black)/0.06)] max-md:overflow-hidden"
+            data-state="closed"
+            data-slot="context-menu-trigger"
+          >
+            <div
+              className="tiled-canvas relative select-none"
+              tabIndex={0}
+              style={{ touchAction: "none", width: canvasSize.width, height: canvasSize.height }}
+            >
+              <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+                <canvas
+                  data-testid="editor-pdf-canvas"
+                  ref={canvasRef}
+                  style={{
+                    position: "absolute",
+                    left: "0%",
+                    top: "0%",
+                    width: "100%",
+                    height: "100%",
+                    pointerEvents: "none",
+                  }}
+                />
+              </div>
+            </div>
+
+            <EditorCanvasOverlays canvasSize={canvasSize} />
+          </div>
+        </div>
+      </div>
+
+      {isRendering ? <p className="sr-only">Rendering first page...</p> : null}
+      {error ? <p className="sr-only">{error}</p> : null}
     </div>
   )
 }

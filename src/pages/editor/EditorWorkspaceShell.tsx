@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   EditorBottomZoomBar,
   EditorBottomRightUtilities,
@@ -14,6 +14,7 @@ import {
   inspectorSections,
   type EditorToolId,
 } from "./config/editor-shell-mock"
+import { usePdfThumbnails } from "./hooks/usePdfThumbnails"
 
 interface EditorWorkspaceShellProps {
   selectedPdf?: File | null
@@ -36,9 +37,18 @@ export function EditorWorkspaceShell({
   const [mobileInspectorOpen, setMobileInspectorOpen] = useState(false)
   const [zoom, setZoom] = useState(100)
   const hasPdf = Boolean(selectedPdf)
-  const selectedPageIndex = editorThumbnails.findIndex((page) => page.id === selectedPage)
+  const renderedThumbnails = usePdfThumbnails(selectedPdf)
+  const displayedThumbnails = hasPdf ? renderedThumbnails : editorThumbnails
+
+  useEffect(() => {
+    if (!displayedThumbnails.some((page) => page.id === selectedPage)) {
+      setSelectedPage(displayedThumbnails[0]?.id ?? "page-1")
+    }
+  }, [displayedThumbnails, selectedPage])
+
+  const selectedPageIndex = displayedThumbnails.findIndex((page) => page.id === selectedPage)
   const currentPage = hasPdf ? Math.max(1, selectedPageIndex + 1) : 1
-  const totalPages = hasPdf ? editorThumbnails.length : 1
+  const totalPages = hasPdf ? displayedThumbnails.length : 1
 
   const zoomOut = () => {
     if (!hasPdf) {
@@ -62,7 +72,7 @@ export function EditorWorkspaceShell({
 
       <main className={`pb-6 ${hasPdf ? "pt-24 md:px-[180px] xl:px-[220px]" : "pt-20 md:px-6"}`}>
         {hasPdf ? (
-          <EditorThumbnailPanel pages={editorThumbnails} selectedPage={selectedPage} onSelectPage={setSelectedPage} />
+            <EditorThumbnailPanel pages={displayedThumbnails} selectedPage={selectedPage} onSelectPage={setSelectedPage} />
         ) : null}
 
 

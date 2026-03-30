@@ -19,6 +19,7 @@ export interface EditorToolbarTool {
 export interface EditorThumbnailItem {
   id: string
   label: string
+  previewSrc?: string
 }
 
 export interface InspectorSection {

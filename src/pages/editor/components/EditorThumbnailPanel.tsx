@@ -49,7 +49,7 @@ export function EditorThumbnailPanel({ pages, selectedPage, onSelectPage }: Edit
                   aria-label={page.label}
                   aria-pressed={isSelected}
                   onClick={() => onSelectPage(page.id)}
-                  className="w-[84px]"
+                  className="w-[120px]"
                 >
                   <div
                     className={`rounded-xs mb-1 cursor-pointer border bg-white transition-colors ${
@@ -58,7 +58,15 @@ export function EditorThumbnailPanel({ pages, selectedPage, onSelectPage }: Edit
                         : "border-[hsl(var(--grey-400))] group-hover:border-[hsl(var(--grey-500))]"
                     }`}
                     style={{ aspectRatio: "0.772727 / 1" }}
-                  />
+                  >
+                    {page.previewSrc ? (
+                      <img
+                        src={page.previewSrc}
+                        alt={`${page.label} preview`}
+                        className="rounded-xs h-full w-full object-cover"
+                      />
+                    ) : null}
+                  </div>
                   <p
                     className={`text-[var(--text-body-2)] font-semibold transition-colors ${
                       isSelected
